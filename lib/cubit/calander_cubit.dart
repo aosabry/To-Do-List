@@ -16,7 +16,8 @@ class CalendarCubit extends Cubit<CalendarState> {
     
     final allTasksList = await dbHelper.createDatabase().then((db) => db.query('tasks'));
     
-    String formattedDate = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    String formattedDate = 
+    "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
 
     List<Map<String, dynamic>> tasksForDay = [];
 

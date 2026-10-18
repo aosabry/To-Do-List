@@ -5,6 +5,7 @@ import 'package:to_do_list/cubit/task_cubit.dart';
 import 'package:to_do_list/cubit/task_state.dart';
 import 'package:to_do_list/screens/add_task.dart';
 import 'package:to_do_list/screens/calendar_screen.dart';
+import 'package:to_do_list/screens/edit_task.dart';
 import 'package:to_do_list/screens/overview_screen.dart';
 
 void main() {
@@ -141,7 +142,8 @@ class MyApp extends StatelessWidget {
                       child: Row(
                         children: [
                           Checkbox(value: filteredTasks[index].isDone ?? false,
-                          checkColor: Colors.white,activeColor: Color.fromARGB(255, 33, 89, 243),side: BorderSide(color: Color.fromARGB(255, 33, 89, 243),width: 2),
+                          checkColor: Colors.white,activeColor: Color.fromARGB(255, 33, 89, 243),
+                          side: BorderSide(color: Color.fromARGB(255, 33, 89, 243),width: 2),
                            onChanged: (value) async{
                             filteredTasks[index].isDone = value;
                             await context.read<TaskCubit>().updateTask(filteredTasks[index]);
@@ -216,10 +218,21 @@ class MyApp extends StatelessWidget {
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                            
-                          }, icon: Icon(Icons.edit,size: 25,)),
+                        IconButton(
+                           onPressed: () async {
+                           final updatedTask = await Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) => EditTaskScreen(task: filteredTasks[index]),
+                         ),
+                        );
+
+                         if (updatedTask != null) {
+                         await context.read<TaskCubit>().updateTask(updatedTask);
+                        }
+                       },
+                        icon: Icon(Icons.edit, size: 25),
+                        ),
       
       
                           IconButton (
@@ -263,9 +276,9 @@ class MyApp extends StatelessWidget {
           },
           backgroundColor: Colors.white,
           items: [
-          BottomNavigationBarItem(icon: Icon(Icons.checklist_outlined,size: 30,),label: "All"),  
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_month),label:"Calendar"),
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined),label:"Overview"),
+          BottomNavigationBarItem(icon: Icon(Icons.checklist_outlined,size: 30),label: "All"),  
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month,size: 30),label:"Calendar"),
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined,size: 30),label:"Overview"),
         ],
         selectedItemColor: Color.fromARGB(255, 33, 89, 243),
         unselectedItemColor: Color(0xff60656b),
