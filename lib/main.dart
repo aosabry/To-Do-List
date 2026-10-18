@@ -260,8 +260,8 @@ class MyApp extends StatelessWidget {
               await context.read<TaskCubit>().addTask(taskmodel);
             }  
         },
-        child: Icon(Icons.add,color: Colors.white),
         backgroundColor: Color.fromARGB(255, 33, 89, 243),
+        child: Icon(Icons.add,color: Colors.white),
         ),
 
         bottomNavigationBar: BottomNavigationBar(

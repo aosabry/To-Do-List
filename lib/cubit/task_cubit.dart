@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list/database/task_database.dart';
 import 'package:to_do_list/models/task_model.dart';
@@ -18,9 +17,8 @@ class TaskCubit extends Cubit<TaskState> {
     try {
       tasks = await db.get_tasks();
 
-      emit(TaskSuccessState(tasks: tasks,searchText: searchText,));
-     } 
-     catch (e) {
+      emit(TaskSuccessState(tasks: tasks, searchText: searchText));
+    } catch (e) {
       emit(TaskErrorState(e.toString()));
     }
   }
@@ -28,7 +26,7 @@ class TaskCubit extends Cubit<TaskState> {
   void searchTasks(String value) {
     searchText = value.toLowerCase();
 
-    emit(TaskSuccessState(tasks: tasks,searchText: searchText,));
+    emit(TaskSuccessState(tasks: tasks, searchText: searchText));
   }
 
   Future<void> addTask(TaskModel taskmodel) async {
@@ -37,7 +35,7 @@ class TaskCubit extends Cubit<TaskState> {
 
     tasks.add(taskmodel);
 
-    emit(TaskSuccessState(tasks: tasks,searchText: searchText,));
+    emit(TaskSuccessState(tasks: tasks, searchText: searchText));
   }
 
   Future<void> deleteTask(int id) async {
@@ -45,11 +43,26 @@ class TaskCubit extends Cubit<TaskState> {
 
     tasks.removeWhere((t) => t.id == id);
 
-    emit(TaskSuccessState(tasks: tasks,searchText: searchText,));
+    emit(TaskSuccessState(tasks: tasks, searchText: searchText));
   }
 
   Future<void> updateTask(TaskModel taskmodel) async {
     await db.update_task(taskmodel);
-    emit(TaskSuccessState(tasks: tasks,searchText: searchText,));
+    emit(TaskSuccessState(tasks: tasks, searchText: searchText));
+  }
+
+  // أضف المتغير ده جوه TaskCubit
+  String selectedFilter = 'All';
+
+  // أضف الميثود دي
+  void changeFilter(String filter) {
+    selectedFilter = filter;
+    emit(
+      TaskSuccessState(
+        tasks: tasks,
+        searchText: searchText,
+        selectedFilter: selectedFilter,
+      ),
+    );
   }
 }

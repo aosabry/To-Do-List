@@ -4,7 +4,7 @@ import 'package:to_do_list/models/task_model.dart';
 class EditTaskScreen extends StatefulWidget {
   final TaskModel task;
 
-  EditTaskScreen({super.key, required this.task});
+  const EditTaskScreen({super.key, required this.task});
 
   @override
   State<EditTaskScreen> createState() => _EditTaskScreenState();
